@@ -1,6 +1,6 @@
-import React, { FC } from "react"
+import React from "react"
 
-export const App:FC = () => {
+function App() {
   return (
     <div>
         <h2>Welcome to React App</h2>
@@ -8,3 +8,5 @@ export const App:FC = () => {
     </div>
   )
 }
+
+export default App

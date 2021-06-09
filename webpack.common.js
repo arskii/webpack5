@@ -1,10 +1,11 @@
-const webpack = require('webpack')
+const webpack = require('webpack');
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 
 const dirNode = 'node_modules';
 const dirApp = path.join(__dirname, 'src');
+const dirStyles = path.join(__dirname, 'styles');
 const dirPublic = path.join(__dirname, 'public');
 
 module.exports = env => {
@@ -20,26 +21,22 @@ module.exports = env => {
       modules: [
         dirNode,
         dirApp,
+        dirStyles,
         dirPublic
-      ],
-      extensions: ['.tsx', '.ts', '.js']
+      ]
     },
 
     module: {
       rules: [
         {
-          test: /\.(ts|js)x$/i,
-          use: [
-            {
-              loader: "babel-loader",
-              options: {
-                cacheDirectory: true,
-                presets: [["@babel/preset-env", { targets: { node: "8" } }]]
-              }
-            },
-            "ts-loader"
-          ],
-          exclude: /node_modules/
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              compact: true
+            }
+          }
         },
 
         {
@@ -70,7 +67,7 @@ module.exports = env => {
               options: {
                 sourceMap: IS_DEV,
                 sassOptions: {
-                  includePaths: [dirApp]
+                  includePaths: [dirPublic]
                 }
               }
             }
@@ -97,7 +94,10 @@ module.exports = env => {
     },
     plugins: [
       new webpack.DefinePlugin({ IS_DEV }),
-      new HtmlWebpackPlugin({ template: './public/index.html' }),
+      new HtmlWebpackPlugin({ 
+        template: './public/index.html',
+        filename: 'index.html',
+      }),
       new ImageMinimizerPlugin({
         minimizerOptions: {
           plugins: [

@@ -7,7 +7,7 @@ const common = require('./webpack.common')
 module.exports = env => {
   return merge(common(env), {
     mode: 'production',
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[contenthash].bundle.js'
